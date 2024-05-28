@@ -84,3 +84,44 @@ document
 // document.querySelector('.btn--close-cookie').addEventListener('click', function () {
 //   message.parentElement.removeChild(message);
 // });
+
+// Styles
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%';
+console.log(message.style.height);
+console.log(message.style.backgroundColor);
+
+console.log(getComputedStyle(message).color);
+console.log(getComputedStyle(message).height);
+
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) +
+  40 +
+  'px';
+
+document.documentElement.style.setProperty(
+  '--color-primary',
+  'orangered'
+);
+// Attributes
+const logo = document.querySelector('.nav__logo');
+logo.alt = 'Beautiful minmalis logo';
+console.log(logo.alt);
+console.log(logo.getAttribute('designer'));
+logo.setAttribute('company', 'Bankist');
+
+console.log(logo.src);
+console.log(logo.getAttribute('src'));
+
+const link = document.querySelector('.nav__link--btn');
+console.log(link.href);
+console.log(link.getAttribute('href'));
+
+// Data attributes
+console.log(logo.dataset.versionNumber);
+
+// Classes
+logo.classList.add('c');
+logo.classList.remove('c');
+logo.classList.toggle('c');
+logo.classList.contains('c');
