@@ -138,7 +138,6 @@ tabsContainer.addEventListener('click', e => {
 
 // Menu fade animation
 const handleHover = function (e) {
-  console.log(this, e.currentTarget);
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
     const siblings = link
@@ -158,14 +157,48 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
 // Sticky navigation
-const initialCoords = section1.getBoundingClientRect();
-window.addEventListener('scroll', function () {
-  console.log(window.scrollY);
-  if (this.window.scrollY > initialCoords.top)
-    nav.classList.add('sticky');
-  else nav.classList.remove('sticky');
-});
+// const initialCoords = section1.getBoundingClientRect();
+// window.addEventListener('scroll', function () {
+//   console.log(window.scrollY);
+//   if (this.window.scrollY > initialCoords.top)
+//     nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
 
+// Sticky navigation: Intersection Observer API
+// const obsCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+// const obsOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(
+//   obsCallback,
+//   obsOptions
+// );
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeigt = nav.getBoundingClientRect().height;
+console.log(navHeigt);
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `${navHeigt}px`,
+});
+headObserver.observe(header);
 ///////////////////////
 ///////////////////////
 ///////////////////////
@@ -176,13 +209,13 @@ window.addEventListener('scroll', function () {
 // console.log(document.head);
 // console.log(document.body);
 
-const header = document.querySelector('.header');
-const allSections = document.querySelectorAll('.section');
+// const header = document.querySelector('.header');
+// const allSections = document.querySelectorAll('.section');
 // console.log(allSections);
 
-document.getElementById('section--1');
+// document.getElementById('section--1');
 
-const allButtons = document.getElementsByTagName('button');
+// const allButtons = document.getElementsByTagName('button');
 // console.log(allButtons);
 
 // console.log(document.getElementsByClassName('btn'));
@@ -190,11 +223,11 @@ const allButtons = document.getElementsByTagName('button');
 // Creating and inserting elements
 // .insertAdjacentHTML
 
-const message = document.createElement('div');
-message.classList.add('cookie-message');
+// const message = document.createElement('div');
+// message.classList.add('cookie-message');
 // message.textContent = 'We use cookies for improve functionality and analytics.';
-message.innerHTML =
-  'We use cookies for improve functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
+// message.innerHTML =
+//   'We use cookies for improve functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
 
 // header.prepend(message);
 // header.append(message);
