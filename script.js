@@ -223,11 +223,9 @@ allSections.forEach(function (section) {
 // Lazy loading images
 const imgTargets =
   document.querySelectorAll('img[data-src');
-console.log(imgTargets);
 
 const loadImg = function (entries, observer) {
   const [entry] = entries;
-  console.log(entry);
 
   if (!entry.isIntersecting) return;
 
@@ -254,6 +252,7 @@ const btnleft = document.querySelector(
 const btnRight = document.querySelector(
   '.slider__btn--right'
 );
+const dotContainer = document.querySelector('.dots');
 
 let curSlide = 0;
 const maxSlide = slides.length;
@@ -261,6 +260,28 @@ const maxSlide = slides.length;
 // const slider = document.querySelector('.slider');
 // slider.style.transform = 'scale(0.4) translateX(-800px)';
 // slider.style.overflow = 'visible';
+
+const createDots = function () {
+  slides.forEach(function (_, i) {
+    dotContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+createDots();
+
+const activateDot = function (slide) {
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach(dot =>
+      dot.classList.remove('dots__dot--active')
+    );
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add('dots__dot--active');
+};
+activateDot(0);
 
 const goToSlide = function (slide) {
   slides.forEach(
@@ -280,6 +301,7 @@ const nextSlide = function () {
     curSlide++;
   }
   goToSlide(curSlide);
+  activateDot(curSlide);
 };
 
 const prevSlide = function () {
@@ -289,11 +311,25 @@ const prevSlide = function () {
     curSlide--;
   }
   goToSlide(curSlide);
+  activateDot(curSlide);
 };
 
 btnRight.addEventListener('click', nextSlide);
 btnleft.addEventListener('click', prevSlide);
 // curSlide = 1; -100%, 0%, 100%, 300%
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') prevSlide();
+  e.key === 'ArrowRight' && nextSlide();
+});
+
+dotContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+    const { slide } = e.target.dataset;
+    goToSlide(slide);
+    activateDot(slide);
+  }
+});
 
 ///////////////////////
 ///////////////////////
